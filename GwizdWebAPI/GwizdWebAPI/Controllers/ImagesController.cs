@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using GwizdWebAPI.Entities;
 using GwizdWebAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace GwizdWebAPI.Controllers
 {
@@ -50,6 +51,36 @@ namespace GwizdWebAPI.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+        
+        [HttpPost("CropImage")]
+        public async Task<ActionResult<string>> CropImage(AnimalImageDto imageDto)
+        {
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri(Constants.ExternalUrl);
+            try
+            {
+                var request = new SelectImageRequest
+                {
+                    WildAnimalImage = imageDto.Image
+                };
+                var jsonRequest = JsonConvert.SerializeObject(request);
+                HttpContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync("/select_image", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    return Ok(responseContent);
+                }
+
+                return BadRequest("Couldn't process image");
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+        
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] AnimalImageDto animalImage)
