@@ -10,7 +10,7 @@ public class DatabaseContext : DbContext
     }
 
     public DbSet<UserEntity> Users { get; set; }
-    public DbSet<AnimalImageEntity> AnimalImages { get; set; }
+    public DbSet<AnimalImageEntity?> AnimalImages { get; set; }
     public DbSet<AnimalSuggestionEntity> AnimalSuggestions { get; set; }
     public DbSet<DisappearedAnimalEntity> DisappearedAnimals { get; set; }
     public DbSet<FoundedAnimalEntity> FoundedAnimals { get; set; }

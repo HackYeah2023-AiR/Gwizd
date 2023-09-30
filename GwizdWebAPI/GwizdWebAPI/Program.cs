@@ -1,4 +1,5 @@
 using GwizdWebAPI.Database;
+using GwizdWebAPI.Repositories;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,9 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<AnimalImageRepository>();
+
 
 var app = builder.Build();
 
