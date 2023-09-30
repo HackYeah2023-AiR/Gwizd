@@ -11,15 +11,15 @@ namespace GwizdWebAPI.Controllers;
 [Route("[controller]")]
 public class SimilaritiesController : ControllerBase
 {
-    [HttpGet(Name = "FindSimilarAnimals")]
-    public async Task Get()
+    [HttpGet("FindSimilarAnimals")]
+    public async Task FindSimilarAnimals()
     {
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(Constants.ExternalUrl);
         var request = new FindSimilarAnimalsRequest
         {
-            CurrentlyFoundAnimalIds = new[] {0},
-            SearchedAnimalId = 1
+            FoundedAnimalIds = new[] {0},
+            DisappearedAnimalId = 1
         };
         var jsonRequest = JsonConvert.SerializeObject(request);
         HttpContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");

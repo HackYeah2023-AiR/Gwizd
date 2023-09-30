@@ -23,6 +23,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<AnimalImageRepository>();
+builder.Services.AddScoped<DisappearedAnimalRepository>();
+builder.Services.AddScoped<FoundedAnimalRepository>();
 
 
 var app = builder.Build();

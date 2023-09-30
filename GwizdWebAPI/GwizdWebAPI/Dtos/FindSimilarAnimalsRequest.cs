@@ -2,6 +2,6 @@ namespace GwizdWebAPI.Dtos;
 
 public class FindSimilarAnimalsRequest
 {
-    public int SearchedAnimalId { get; set; }
-    public int[] CurrentlyFoundAnimalIds { get; set; }
+    public int DisappearedAnimalId { get; set; }
+    public int[] FoundedAnimalIds { get; set; }
 }
