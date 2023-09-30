@@ -23,12 +23,12 @@ public class SimilaritiesController : ControllerBase
             CurrentlyFoundAnimalsIds = new[] {0},
             SearchedAnimalId = 1
         };
-        string jsonRequest = JsonConvert.SerializeObject(request);
+        var jsonRequest = JsonConvert.SerializeObject(request);
         HttpContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync("/similarity_points", content);
         if (response.IsSuccessStatusCode)
         {
-            string responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync();
             Console.WriteLine("Response Content: " + responseContent);
         }
         else
