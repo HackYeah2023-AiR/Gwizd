@@ -8,4 +8,5 @@ public class AnimalSuggestionEntity
     public DisappearedAnimalEntity DisappearedAnimal { get; set; }
     public int? FoundedAnimalId { get; set; }
     public FoundedAnimalEntity FoundedAnimal { get; set; }
+    public bool IsViewed { get; set; }
 }
