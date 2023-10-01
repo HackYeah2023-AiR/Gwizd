@@ -107,29 +107,6 @@ public class FoundedAnimalsController : ControllerBase
 
     }
 
-    [HttpPost]
-    public async Task<ActionResult> Post([FromBody] AnimalDto animal)
-    {
-        try
-        {
-            var entity = new FoundedAnimalEntity
-            {
-                Date = animal.Date,
-                FoundedAnimalId = animal.Id,
-                Latitude = animal.Latitude,
-                Longitude = animal.Longitude,
-                ReporterId = animal.RelatedUserId,
-                SpeciesName = animal.AnimalName
-            };
-            await _foundedAnimalRepository.AddFoundedAnimalAsync(entity);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex}");
-        }
-    }
-
     // [HttpPut("{id}")]
     // public IActionResult Put(int id, [FromBody] AnimalDto updatedAnimal)
     // {

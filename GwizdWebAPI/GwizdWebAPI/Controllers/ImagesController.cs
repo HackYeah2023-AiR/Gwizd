@@ -11,6 +11,7 @@ namespace GwizdWebAPI.Controllers
     [AllowAnonymous]
     [Route("[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ImagesController : ControllerBase
     {
         private readonly AnimalImageRepository _animalImageRepository;
@@ -52,7 +53,6 @@ namespace GwizdWebAPI.Controllers
             }
         }
         
-        [HttpPost("CropImage")]
         public async Task<ActionResult<string>> CropImage(AnimalImageDto imageDto)
         {
             var httpClient = new HttpClient();
@@ -72,7 +72,7 @@ namespace GwizdWebAPI.Controllers
                     return Ok(responseContent);
                 }
 
-                return BadRequest("Couldn't process image");
+                return BadRequest();
 
             }
             catch (Exception ex)
@@ -80,7 +80,6 @@ namespace GwizdWebAPI.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
-        
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] AnimalImageDto animalImage)
