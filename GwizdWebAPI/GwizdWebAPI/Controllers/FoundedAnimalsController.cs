@@ -1,8 +1,10 @@
+using System.Text;
 using GwizdWebAPI.Dtos;
 using GwizdWebAPI.Entities;
 using GwizdWebAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GwizdWebAPI.Controllers;
 
@@ -40,6 +42,52 @@ public class FoundedAnimalsController : ControllerBase
         {
             return StatusCode(500, $"Internal server error: {ex}");
         }
+    }
+    
+    [HttpGet("GetAllFoundedWithImages")]
+    public async Task<ActionResult<IEnumerable<AnimalWithImagesDto>>> GetAllFoundedWithImages()
+    {
+        try
+        {
+            var result = await _foundedAnimalRepository.GetAllFoundedAnimalsAsync();
+            var animalsWithImagesTasks = result.Select(async x =>
+            {
+                var images = await GetAnimalImages(x.FoundedAnimalId);
+                return new AnimalWithImagesDto()
+                {
+                    AnimalName = x.SpeciesName,
+                    Date = x.Date,
+                    Id = x.FoundedAnimalId,
+                    Latitude = x.Latitude,
+                    Longitude = x.Longitude,
+                    RelatedUserId = x.ReporterId,
+                    Images = images.Select(image => Encoding.UTF8.GetString(image.ImageBlob)).ToList()
+                };
+            });
+
+            var animalsWithImages = await Task.WhenAll(animalsWithImagesTasks);
+            return Ok(animalsWithImages);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex}");
+        }
+    }
+    
+    private async Task<List<AnimalImageEntity>> GetAnimalImages(int animalId)
+    {
+        var HttpClient = new HttpClient();
+        HttpClient.BaseAddress = new Uri("http://192.168.173.85:5223");
+        var response = await HttpClient.GetAsync($"/Images/{animalId}");
+        if (response.IsSuccessStatusCode)
+        {
+            var images = await response.Content.ReadAsStringAsync();
+            var imagesEntities = JsonConvert.DeserializeObject<List<AnimalImageEntity>>(images);
+
+            return imagesEntities;
+        }
+
+        return new List<AnimalImageEntity>();
     }
 
     [HttpGet("{id}")]

@@ -24,8 +24,16 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<AnimalSuggestionEntity>()
             .HasKey(x => x.AnimalSuggestionID);
         modelBuilder.Entity<DisappearedAnimalEntity>()
+            .HasMany(x => x.Images)
+            .WithOne(x => x.DisappearedAnimal)
+            .IsRequired(false);
+        modelBuilder.Entity<DisappearedAnimalEntity>()
             .HasKey(x => x.DisappearedAnimalId);
         modelBuilder.Entity<FoundedAnimalEntity>()
             .HasKey(x => x.FoundedAnimalId);
+        modelBuilder.Entity<FoundedAnimalEntity>()
+            .HasMany(x => x.Images)
+            .WithOne(x => x.FoundedAnimal)
+            .IsRequired(false);
     }
 }

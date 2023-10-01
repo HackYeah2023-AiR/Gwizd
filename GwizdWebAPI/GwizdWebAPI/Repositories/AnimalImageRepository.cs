@@ -18,9 +18,12 @@ public class AnimalImageRepository
         return await _context.AnimalImages.ToListAsync();
     }
 
-    public async Task<AnimalImageEntity?> GetAnimalImageByIdAsync(int animalImageId)
+    public async Task<List<AnimalImageEntity?>> GetAnimalImageByIdAsync(int animalImageId)
     {
-        return await _context.AnimalImages.FindAsync(animalImageId);
+        return await _context.AnimalImages
+            .Where(image => (image.IsAnimalLost && image.DisappearedAnimalEntityDisappearedAnimalId == animalImageId) ||
+                            (!image.IsAnimalLost && image.FoundedAnimalEntityFoundedAnimalId == animalImageId))
+            .ToListAsync();    
     }
 
     public async Task AddAnimalImageAsync(AnimalImageEntity? animalImage)

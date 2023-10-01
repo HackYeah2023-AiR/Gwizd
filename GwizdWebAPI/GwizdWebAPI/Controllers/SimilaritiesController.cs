@@ -34,4 +34,28 @@ public class SimilaritiesController : ControllerBase
             Console.WriteLine("Failed to retrieve similarity points. Status code: " + response.StatusCode);
         }
     }
+    
+    [HttpGet("GetSuggestedAnimals")]
+    public async Task GetSuggestedAnimals()
+    {
+        var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(Constants.ExternalUrl);
+        var request = new FindSimilarAnimalsRequest
+        {
+            DisappearedAnimalId = 1
+        };
+        var jsonRequest = JsonConvert.SerializeObject(request);
+        HttpContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync("/sort_suggested_animals", content);
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response Content: " + responseContent);
+        }
+        else
+        {
+            Console.WriteLine("Failed to retrieve similarity points. Status code: " + response.StatusCode);
+        }
+    }
+    
 }

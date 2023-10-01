@@ -40,6 +40,9 @@ namespace GwizdWebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
+                    b.Property<bool>("IsAnimalLost")
+                        .HasColumnType("boolean");
+
                     b.HasKey("AnimalImageId");
 
                     b.HasIndex("DisappearedAnimalEntityDisappearedAnimalId");
@@ -171,13 +174,17 @@ namespace GwizdWebAPI.Migrations
 
             modelBuilder.Entity("GwizdWebAPI.Entities.AnimalImageEntity", b =>
                 {
-                    b.HasOne("GwizdWebAPI.Entities.DisappearedAnimalEntity", null)
+                    b.HasOne("GwizdWebAPI.Entities.DisappearedAnimalEntity", "DisappearedAnimal")
                         .WithMany("Images")
                         .HasForeignKey("DisappearedAnimalEntityDisappearedAnimalId");
 
-                    b.HasOne("GwizdWebAPI.Entities.FoundedAnimalEntity", null)
+                    b.HasOne("GwizdWebAPI.Entities.FoundedAnimalEntity", "FoundedAnimal")
                         .WithMany("Images")
                         .HasForeignKey("FoundedAnimalEntityFoundedAnimalId");
+
+                    b.Navigation("DisappearedAnimal");
+
+                    b.Navigation("FoundedAnimal");
                 });
 
             modelBuilder.Entity("GwizdWebAPI.Entities.AnimalSuggestionEntity", b =>
