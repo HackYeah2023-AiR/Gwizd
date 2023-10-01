@@ -77,7 +77,7 @@ public class FoundedAnimalsController : ControllerBase
     private async Task<List<AnimalImageEntity>> GetAnimalImages(int animalId)
     {
         var HttpClient = new HttpClient();
-        HttpClient.BaseAddress = new Uri("http://192.168.173.85:5223");
+        HttpClient.BaseAddress = new Uri(Constants.HostUrl);
         var response = await HttpClient.GetAsync($"/Images/{animalId}");
         if (response.IsSuccessStatusCode)
         {

@@ -1,3 +1,4 @@
+using GwizdWebAPI.Controllers;
 using GwizdWebAPI.Database;
 using GwizdWebAPI.Repositories;
 using Microsoft.AspNetCore.Authentication.Negotiate;
@@ -55,4 +56,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run("http://192.168.173.85:5223");
+app.Run(Constants.HostUrl);

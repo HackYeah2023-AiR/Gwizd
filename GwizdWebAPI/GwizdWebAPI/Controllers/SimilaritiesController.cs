@@ -12,15 +12,10 @@ namespace GwizdWebAPI.Controllers;
 public class SimilaritiesController : ControllerBase
 {
     [HttpGet("FindSimilarAnimals")]
-    public async Task FindSimilarAnimals()
+    public async Task FindSimilarAnimals(FindSimilarAnimalsRequest request)
     {
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(Constants.ExternalUrl);
-        var request = new FindSimilarAnimalsRequest
-        {
-            FoundedAnimalIds = new[] {0},
-            DisappearedAnimalId = 1
-        };
         var jsonRequest = JsonConvert.SerializeObject(request);
         HttpContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync("/similarity_points", content);
@@ -35,14 +30,14 @@ public class SimilaritiesController : ControllerBase
         }
     }
     
-    [HttpGet("GetSuggestedAnimals")]
-    public async Task GetSuggestedAnimals()
+    [HttpGet("GetSuggestedAnimals/{DisappearedAnimalId}")]
+    public async Task GetSuggestedAnimals(int DisappearedAnimalId)
     {
         var httpClient = new HttpClient();
         httpClient.BaseAddress = new Uri(Constants.ExternalUrl);
-        var request = new FindSimilarAnimalsRequest
+        var request = new GetSuggestedAnimalsRequest
         {
-            DisappearedAnimalId = 1
+            DisappearedAnimalId = DisappearedAnimalId
         };
         var jsonRequest = JsonConvert.SerializeObject(request);
         HttpContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
