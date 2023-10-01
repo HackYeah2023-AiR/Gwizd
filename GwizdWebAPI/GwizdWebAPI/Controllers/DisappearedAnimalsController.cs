@@ -60,7 +60,7 @@ public class DisappearedAnimalsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<AnimalDto>> Post([FromBody] AnimalDto animal)
+    public async Task<ActionResult> Post([FromBody] AnimalDto animal)
     {
         try
         {
@@ -74,7 +74,7 @@ public class DisappearedAnimalsController : ControllerBase
                 SpeciesName = animal.AnimalName
             };
             await _disappearedAnimalRepository.AddDisappearedAnimalAsync(entity);
-            return CreatedAtRoute("Get", new {id = animal.Id}, animal);
+            return Ok();
         }
         catch (Exception ex)
         {

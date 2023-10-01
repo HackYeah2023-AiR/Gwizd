@@ -60,7 +60,7 @@ public class FoundedAnimalsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<AnimalDto>> Post([FromBody] AnimalDto animal)
+    public async Task<ActionResult> Post([FromBody] AnimalDto animal)
     {
         try
         {
@@ -74,7 +74,7 @@ public class FoundedAnimalsController : ControllerBase
                 SpeciesName = animal.AnimalName
             };
             await _foundedAnimalRepository.AddFoundedAnimalAsync(entity);
-            return CreatedAtRoute("Get", new {id = animal.Id}, animal);
+            return Ok();
         }
         catch (Exception ex)
         {
