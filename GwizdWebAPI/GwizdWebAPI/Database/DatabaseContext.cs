@@ -11,7 +11,6 @@ public class DatabaseContext : DbContext
 
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<AnimalImageEntity?> AnimalImages { get; set; }
-    public DbSet<AnimalSuggestionEntity> AnimalSuggestions { get; set; }
     public DbSet<DisappearedAnimalEntity> DisappearedAnimals { get; set; }
     public DbSet<FoundedAnimalEntity> FoundedAnimals { get; set; }
     
@@ -21,8 +20,6 @@ public class DatabaseContext : DbContext
             .HasKey(x => x.Id);
         modelBuilder.Entity<AnimalImageEntity>()
             .HasKey(x => x.AnimalImageId);
-        modelBuilder.Entity<AnimalSuggestionEntity>()
-            .HasKey(x => x.AnimalSuggestionID);
         modelBuilder.Entity<DisappearedAnimalEntity>()
             .HasMany(x => x.Images)
             .WithOne(x => x.DisappearedAnimal)

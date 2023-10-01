@@ -26,6 +26,10 @@ public class AnimalsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<AnimalDto>> Post(AnimalCreationDto animalCreationDto)
     {
+        if (!ValidateAnimalCreation(animalCreationDto))
+        {
+            return BadRequest("Payload was not valid");
+        }
         try
         {
             if (animalCreationDto.Image != null)
@@ -48,6 +52,24 @@ public class AnimalsController : ControllerBase
 
         return Ok();
     }
+
+    private bool ValidateAnimalCreation(AnimalCreationDto animalCreationDto)
+    {
+        if (animalCreationDto.Latitude is > 90 or < -90)
+        {
+            return false;
+        }
+        if (animalCreationDto.Longitude is > 90 or < -90)
+        {
+            return false;
+        }
+        if (animalCreationDto.Date > DateTime.Now)
+        {
+            return false;
+        }
+        return true;
+    }
+
 
     private async Task CreateAnimalInDatabase(AnimalCreationDto animal)
     {
