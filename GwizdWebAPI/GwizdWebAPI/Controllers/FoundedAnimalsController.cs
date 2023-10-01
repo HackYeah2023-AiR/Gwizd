@@ -19,8 +19,8 @@ public class FoundedAnimalsController : ControllerBase
         _foundedAnimalRepository = foundedAnimalRepository;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<AnimalDto>>> Get()
+    [HttpGet("GetAllFounded")]
+    public async Task<ActionResult<IEnumerable<AnimalDto>>> GetFounded()
     {
         try
         {
@@ -42,8 +42,8 @@ public class FoundedAnimalsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}", Name = "Get")]
-    public async Task<ActionResult<AnimalDto>> Get(int id)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<AnimalDto>> GetFounded(int id)
     {
         try
         {

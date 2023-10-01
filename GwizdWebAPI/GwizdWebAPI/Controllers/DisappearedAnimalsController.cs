@@ -19,8 +19,8 @@ public class DisappearedAnimalsController : ControllerBase
         _disappearedAnimalRepository = disappearedAnimalRepository;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<AnimalDto>>> Get()
+    [HttpGet("GetAllDisappeared")]
+    public async Task<ActionResult<IEnumerable<AnimalDto>>> GetDisappeared()
     {
         try
         {
@@ -42,7 +42,7 @@ public class DisappearedAnimalsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}", Name = "Get")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<AnimalDto>> Get(int id)
     {
         try
