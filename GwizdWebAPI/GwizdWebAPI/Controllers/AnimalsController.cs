@@ -42,6 +42,10 @@ public class AnimalsController : ControllerBase
                 {
                     animalCreationDto.Image = animalCreationDto.Image;
                 }
+                else
+                {
+                    return BadRequest("There is no animal on the picture");
+                }
             }
             await CreateAnimalInDatabase(animalCreationDto);
         }
@@ -73,7 +77,7 @@ public class AnimalsController : ControllerBase
 
     private async Task CreateAnimalInDatabase(AnimalCreationDto animal)
     {
-        if (animal.IsLost)
+        if (!animal.IsLost)
         {
             var entity = new FoundedAnimalEntity
             {
@@ -81,7 +85,14 @@ public class AnimalsController : ControllerBase
                 Latitude = animal.Latitude,
                 Longitude = animal.Longitude,
                 ReporterId = 0,
-                SpeciesName = animal.SpeciesName
+                SpeciesName = animal.SpeciesName,
+                Images = new List<AnimalImageEntity>
+                {
+                    new AnimalImageEntity()
+                    {
+                        ImageBlob = Encoding.UTF8.GetBytes(animal.Image)
+                    }
+                }
             };
             await _foundedAnimalRepository.AddFoundedAnimalAsync(entity);
         }
@@ -93,7 +104,14 @@ public class AnimalsController : ControllerBase
                 Latitude = animal.Latitude,
                 Longitude = animal.Longitude,
                 OwnerId = 0,
-                SpeciesName = animal.SpeciesName
+                SpeciesName = animal.SpeciesName,
+                Images = new List<AnimalImageEntity>
+                {
+                    new AnimalImageEntity()
+                    {
+                        ImageBlob = Encoding.UTF8.GetBytes(animal.Image)
+                    }
+                }
             };
             await _disappearedAnimalRepository.AddDisappearedAnimalAsync(entity);
         }

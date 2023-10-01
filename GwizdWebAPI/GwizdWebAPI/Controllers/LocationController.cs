@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace GwizdWebAPI.Controllers;
 
-
+[ApiExplorerSettings(IgnoreApi = true)]
 [AllowAnonymous]
 [ApiController]
 [Route("[controller]")]

@@ -32,6 +32,10 @@ public class AnimalImageRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task Save()
+    {
+        await _context.SaveChangesAsync();
+    }
     public async Task UpdateAnimalImageAsync(AnimalImageEntity animalImage)
     {
         _context.Entry(animalImage).State = EntityState.Modified;

@@ -44,4 +44,9 @@ public class FoundedAnimalRepository
             await _context.SaveChangesAsync();
         }
     }
+    
+    public async Task Save()
+    {
+        await _context.SaveChangesAsync();
+    }
 }

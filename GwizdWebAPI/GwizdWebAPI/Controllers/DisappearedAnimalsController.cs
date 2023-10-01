@@ -21,11 +21,12 @@ public class DisappearedAnimalsController : ControllerBase
         _disappearedAnimalRepository = disappearedAnimalRepository;
     }
 
-    [HttpGet("GetAllDisappeared")]
-    public async Task<ActionResult<IEnumerable<AnimalDto>>> GetDisappeared()
+    [HttpGet("GetAllSortedDisappeared/{DisappearedAnimalId}")]
+    public async Task<ActionResult<IEnumerable<AnimalDto>>> GetAllDisappearedSorted(int DisappearedAnimalId)
     {
         try
         {
+            await GetAnimalSuggestions(DisappearedAnimalId);
             var result = await _disappearedAnimalRepository.GetAllDisappearedAnimalsAsync();
             var dtos = result.Select(x => new AnimalDto()
             {
@@ -71,6 +72,29 @@ public class DisappearedAnimalsController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex}");
+        }
+    }
+    
+    
+    private async Task GetAnimalSuggestions(int DisappearedAnimalId)
+    {
+        var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(Constants.ExternalUrl);
+        var request = new GetSuggestedAnimalsRequest
+        {
+            DisappearedAnimalId = DisappearedAnimalId
+        };
+        var jsonRequest = JsonConvert.SerializeObject(request);
+        HttpContent content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync("/sort_suggested_animals", content);
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Response Content: " + responseContent);
+        }
+        else
+        {
+            Console.WriteLine("Failed to retrieve similarity points. Status code: " + response.StatusCode);
         }
     }
     

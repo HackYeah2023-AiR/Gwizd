@@ -34,6 +34,11 @@ public class DisappearedAnimalRepository
         _context.Entry(animalImage).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
+    public async Task Save()
+    {
+        await _context.SaveChangesAsync();
+    }
+
 
     public async Task DeleteDisappearedAnimalAsync(int animalImageId)
     {
